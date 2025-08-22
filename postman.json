@@ -1,0 +1,2909 @@
+openapi: 3.0.3
+info:
+  title: Library Management API
+  version: 1.0.0
+  description: A comprehensive API for managing libraries, books, authors, members,
+    borrowings, and reviews.
+paths:
+  /api/v1/authors/:
+    get:
+      operationId: api_v1_authors_list
+      description: Retrieve all authors.
+      parameters:
+      - in: query
+        name: birth_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: birth_date_before
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: first_name
+        schema:
+          type: string
+      - in: query
+        name: last_name
+        schema:
+          type: string
+      - in: query
+        name: nationality
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAuthorList'
+          description: ''
+    post:
+      operationId: api_v1_authors_create
+      description: Create a new author.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Author'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+  /api/v1/authors/{author_id}/:
+    get:
+      operationId: api_v1_authors_retrieve
+      description: Get details of an author.
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    put:
+      operationId: api_v1_authors_update
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Author'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    patch:
+      operationId: api_v1_authors_partial_update
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    delete:
+      operationId: api_v1_authors_destroy
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this author.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/bookauthors/:
+    get:
+      operationId: api_v1_bookauthors_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookAuthorList'
+          description: ''
+    post:
+      operationId: api_v1_bookauthors_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookAuthor'
+          description: ''
+  /api/v1/bookauthors/{id}/:
+    get:
+      operationId: api_v1_bookauthors_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book author.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookAuthor'
+          description: ''
+    put:
+      operationId: api_v1_bookauthors_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book author.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookAuthor'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookAuthor'
+          description: ''
+    patch:
+      operationId: api_v1_bookauthors_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book author.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBookAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBookAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBookAuthor'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookAuthor'
+          description: ''
+    delete:
+      operationId: api_v1_bookauthors_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book author.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/bookcategories/:
+    get:
+      operationId: api_v1_bookcategories_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookCategoryList'
+          description: ''
+    post:
+      operationId: api_v1_bookcategories_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategory'
+          description: ''
+  /api/v1/bookcategories/{id}/:
+    get:
+      operationId: api_v1_bookcategories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book category.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategory'
+          description: ''
+    put:
+      operationId: api_v1_bookcategories_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book category.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookCategory'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategory'
+          description: ''
+    patch:
+      operationId: api_v1_bookcategories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book category.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBookCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBookCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBookCategory'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCategory'
+          description: ''
+    delete:
+      operationId: api_v1_bookcategories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book category.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/books/:
+    get:
+      operationId: api_v1_books_list
+      description: Retrieve a list of all books with filters.
+      parameters:
+      - in: query
+        name: authors
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: available_copies__gte
+        schema:
+          type: integer
+      - in: query
+        name: available_copies__lte
+        schema:
+          type: integer
+      - in: query
+        name: categories
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: isbn
+        schema:
+          type: string
+      - in: query
+        name: library
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: publication_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: publication_date_before
+        schema:
+          type: string
+          format: date
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: title
+        schema:
+          type: string
+      - in: query
+        name: total_copies__gte
+        schema:
+          type: integer
+      - in: query
+        name: total_copies__lte
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookList'
+          description: ''
+    post:
+      operationId: api_v1_books_create
+      description: Add a new book.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+  /api/v1/books/{book_id}/:
+    get:
+      operationId: api_v1_books_retrieve
+      description: Retrieve details of a single book.
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    put:
+      operationId: api_v1_books_update
+      description: Update a book.
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    patch:
+      operationId: api_v1_books_partial_update
+      description: Partially update a book.
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    delete:
+      operationId: api_v1_books_destroy
+      description: Delete a book.
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/books/{book_id}/active-borrowings/:
+    get:
+      operationId: api_v1_books_active_borrowings_list
+      description: Get all active borrowings for a member.
+      parameters:
+      - in: query
+        name: authors
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: available_copies__gte
+        schema:
+          type: integer
+      - in: query
+        name: available_copies__lte
+        schema:
+          type: integer
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      - in: query
+        name: categories
+        schema:
+          type: array
+          items:
+            type: integer
+        explode: true
+        style: form
+      - in: query
+        name: isbn
+        schema:
+          type: string
+      - in: query
+        name: library
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: publication_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: publication_date_before
+        schema:
+          type: string
+          format: date
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: title
+        schema:
+          type: string
+      - in: query
+        name: total_copies__gte
+        schema:
+          type: integer
+      - in: query
+        name: total_copies__lte
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+          description: ''
+  /api/v1/books/{book_id}/availability/:
+    get:
+      operationId: api_v1_books_availability_retrieve
+      description: Check availability of a book (available vs total copies).
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this book.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /api/v1/books/borrow/:
+    post:
+      operationId: api_v1_books_borrow_create
+      description: Borrow a book for a member.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+            examples:
+              BorrowRequest:
+                value:
+                  book_id: 1
+                  member_id: 2
+                  borrow_date: '2025-08-10'
+                  due_date: '2025-08-24'
+                summary: Borrow request
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                BorrowSuccessResponse:
+                  value:
+                    status: Book borrowed successfully.
+                  summary: Borrow success response
+          description: ''
+  /api/v1/books/return/:
+    post:
+      operationId: api_v1_books_return_create
+      description: Return a borrowed book. Calculates late fee if overdue.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+            examples:
+              ReturnRequest:
+                value:
+                  borrowing_id: 10
+                summary: Return request
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                ReturnResponse:
+                  value:
+                    status: Book returned.
+                    late_fee: 20
+                  summary: Return response
+          description: ''
+  /api/v1/borrowings/:
+    get:
+      operationId: api_v1_borrowings_list
+      description: Retrieve all borrowings.
+      parameters:
+      - in: query
+        name: book
+        schema:
+          type: integer
+      - in: query
+        name: borrow_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: borrow_date_before
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: due_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: due_date_before
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: late_fee__gte
+        schema:
+          type: number
+      - in: query
+        name: late_fee__lte
+        schema:
+          type: number
+      - in: query
+        name: member
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: return_date
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: return_date_isnull
+        schema:
+          type: boolean
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+          description: ''
+    post:
+      operationId: api_v1_borrowings_create
+      description: Create a new borrowing record.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+          description: ''
+  /api/v1/borrowings/{borrowing_id}/:
+    get:
+      operationId: api_v1_borrowings_retrieve
+      description: Get details of a borrowing.
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this borrowing.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+          description: ''
+    put:
+      operationId: api_v1_borrowings_update
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this borrowing.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+          description: ''
+    patch:
+      operationId: api_v1_borrowings_partial_update
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this borrowing.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBorrowing'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBorrowing'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBorrowing'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+          description: ''
+    delete:
+      operationId: api_v1_borrowings_destroy
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this borrowing.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/categories/:
+    get:
+      operationId: api_v1_categories_list
+      description: Retrieve all categories.
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: descriptions
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryList'
+          description: ''
+    post:
+      operationId: api_v1_categories_create
+      description: Create a new category.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/v1/categories/{category_id}/:
+    get:
+      operationId: api_v1_categories_retrieve
+      description: Get details of a category.
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    put:
+      operationId: api_v1_categories_update
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    patch:
+      operationId: api_v1_categories_partial_update
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    delete:
+      operationId: api_v1_categories_destroy
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this category.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/libraries/:
+    get:
+      operationId: api_v1_libraries_list
+      description: Retrieve a list of libraries.
+      parameters:
+      - in: query
+        name: campus_location
+        schema:
+          type: string
+      - in: query
+        name: contact_email
+        schema:
+          type: string
+      - in: query
+        name: created_at_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: created_at_before
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: library_name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: phone_number
+        schema:
+          type: string
+      - in: query
+        name: updated_at_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: updated_at_before
+        schema:
+          type: string
+          format: date
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLibraryList'
+              examples:
+                LibraryListResponse:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - - library_id: 1
+                        library_name: Central Library
+                  summary: Library list response
+          description: ''
+    post:
+      operationId: api_v1_libraries_create
+      description: Create a new library.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Library'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Library'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Library'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+          description: ''
+  /api/v1/libraries/{library_id}/:
+    get:
+      operationId: api_v1_libraries_retrieve
+      description: Retrieve details of a single library.
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this library.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+          description: ''
+    put:
+      operationId: api_v1_libraries_update
+      description: Update an existing library.
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this library.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Library'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Library'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Library'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+          description: ''
+    patch:
+      operationId: api_v1_libraries_partial_update
+      description: Partially update an existing library.
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this library.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLibrary'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLibrary'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLibrary'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+          description: ''
+    delete:
+      operationId: api_v1_libraries_destroy
+      description: Delete a library.
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this library.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/libraries/{library_id}/book-detail/{book_id}/:
+    get:
+      operationId: api_v1_libraries_book_detail_retrieve
+      description: Retrieve details of a specific book within a library.
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this library.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /api/v1/members/:
+    get:
+      operationId: api_v1_members_list
+      description: Retrieve all members.
+      parameters:
+      - in: query
+        name: contact_email
+        schema:
+          type: string
+      - in: query
+        name: first_name
+        schema:
+          type: string
+      - in: query
+        name: last_name
+        schema:
+          type: string
+      - in: query
+        name: member_type
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: phone_number
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemberList'
+          description: ''
+    post:
+      operationId: api_v1_members_create
+      description: Register a new member.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Member'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Member'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Member'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+          description: ''
+  /api/v1/members/{member_id}/:
+    get:
+      operationId: api_v1_members_retrieve
+      description: Get details of a member.
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+          description: ''
+    put:
+      operationId: api_v1_members_update
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Member'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Member'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Member'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+          description: ''
+    patch:
+      operationId: api_v1_members_partial_update
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMember'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMember'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMember'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+          description: ''
+    delete:
+      operationId: api_v1_members_destroy
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/members/{member_id}/active-borrowings/:
+    get:
+      operationId: api_v1_members_active_borrowings_list
+      description: Get active borrowings (not returned yet) for a member.
+      parameters:
+      - in: query
+        name: contact_email
+        schema:
+          type: string
+      - in: query
+        name: first_name
+        schema:
+          type: string
+      - in: query
+        name: last_name
+        schema:
+          type: string
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      - in: query
+        name: member_type
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: phone_number
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+          description: ''
+  /api/v1/members/{member_id}/borrowings/:
+    get:
+      operationId: api_v1_members_borrowings_list
+      description: Get borrowing history of a member.
+      parameters:
+      - in: query
+        name: contact_email
+        schema:
+          type: string
+      - in: query
+        name: first_name
+        schema:
+          type: string
+      - in: query
+        name: last_name
+        schema:
+          type: string
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this member.
+        required: true
+      - in: query
+        name: member_type
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: phone_number
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+          description: ''
+  /api/v1/reviews/:
+    get:
+      operationId: api_v1_reviews_list
+      description: Retrieve all reviews.
+      parameters:
+      - in: query
+        name: book
+        schema:
+          type: integer
+      - in: query
+        name: member
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: rating__exact
+        schema:
+          type: integer
+      - in: query
+        name: rating__gte
+        schema:
+          type: integer
+      - in: query
+        name: rating__lte
+        schema:
+          type: integer
+      - in: query
+        name: review_date_after
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: review_date_before
+        schema:
+          type: string
+          format: date
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReviewList'
+          description: ''
+    post:
+      operationId: api_v1_reviews_create
+      description: Submit a new review.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Review'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+          description: ''
+  /api/v1/reviews/{review_id}/:
+    get:
+      operationId: api_v1_reviews_retrieve
+      description: Get details of a review.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this review.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+          description: ''
+    put:
+      operationId: api_v1_reviews_update
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this review.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Review'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+          description: ''
+    patch:
+      operationId: api_v1_reviews_partial_update
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this review.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReview'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedReview'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedReview'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+          description: ''
+    delete:
+      operationId: api_v1_reviews_destroy
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+        description: A unique integer value identifying this review.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/statistics/:
+    get:
+      operationId: api_v1_statistics_retrieve
+      description: Get overall statistics about the library (books, members, borrowings).
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        author_id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+          maxLength: 100
+        biography:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - author_id
+      - created_at
+      - first_name
+      - last_name
+      - updated_at
+    AuthorNested:
+      type: object
+      properties:
+        author_id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+      required:
+      - author_id
+      - first_name
+      - last_name
+    Book:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        authors:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+          description: List of author IDs
+        categories:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+          description: List of category IDs
+        authors_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorNested'
+          readOnly: true
+        categories_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNested'
+          readOnly: true
+        average_rating:
+          type: number
+          format: double
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        isbn:
+          type: string
+          maxLength: 20
+        publication_date:
+          type: string
+          format: date
+          nullable: true
+        total_copies:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        available_copies:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        library:
+          type: integer
+      required:
+      - authors_detail
+      - average_rating
+      - book_id
+      - categories_detail
+      - created_at
+      - isbn
+      - library
+      - title
+      - updated_at
+    BookAuthor:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        author_id:
+          type: integer
+          readOnly: true
+      required:
+      - author_id
+      - book_id
+    BookCategory:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        category_id:
+          type: integer
+          readOnly: true
+      required:
+      - book_id
+      - category_id
+    Borrowing:
+      type: object
+      properties:
+        borrowing_id:
+          type: integer
+          readOnly: true
+        borrow_date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        return_date:
+          type: string
+          format: date
+          nullable: true
+        late_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        member:
+          type: integer
+        book:
+          type: integer
+      required:
+      - book
+      - borrow_date
+      - borrowing_id
+      - created_at
+      - due_date
+      - member
+      - updated_at
+    Category:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          readOnly: true
+        category:
+          type: string
+          maxLength: 50
+        descriptions:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - category
+      - category_id
+      - created_at
+      - descriptions
+      - updated_at
+    CategoryNested:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          readOnly: true
+        category:
+          type: string
+          maxLength: 50
+      required:
+      - category
+      - category_id
+    Library:
+      type: object
+      properties:
+        library_id:
+          type: integer
+          readOnly: true
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email of the library
+        phone_number:
+          type: string
+          description: Library phone number with country code
+        library_name:
+          type: string
+          maxLength: 50
+        campus_location:
+          type: string
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - campus_location
+      - contact_email
+      - created_at
+      - library_id
+      - library_name
+      - phone_number
+      - updated_at
+    Member:
+      type: object
+      properties:
+        member_id:
+          type: integer
+          readOnly: true
+        has_overdue:
+          type: boolean
+          readOnly: true
+        contact_email:
+          type: string
+          format: email
+          description: Member's contact email
+        phone_number:
+          type: string
+          description: Member's phone number with country code
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        member_type:
+          $ref: '#/components/schemas/MemberTypeEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - contact_email
+      - created_at
+      - first_name
+      - has_overdue
+      - last_name
+      - member_id
+      - phone_number
+      - updated_at
+    MemberTypeEnum:
+      enum:
+      - student
+      - faculty
+      type: string
+      description: |-
+        * `student` - Student
+        * `faculty` - Faculty
+    PaginatedAuthorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+    PaginatedBookAuthorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookAuthor'
+    PaginatedBookCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookCategory'
+    PaginatedBookList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+    PaginatedBorrowingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Borrowing'
+    PaginatedCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    PaginatedLibraryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Library'
+    PaginatedMemberList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    PaginatedReviewList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+    PatchedAuthor:
+      type: object
+      properties:
+        author_id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        nationality:
+          type: string
+          nullable: true
+          maxLength: 100
+        biography:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedBook:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        authors:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+          description: List of author IDs
+        categories:
+          type: array
+          items:
+            type: integer
+            writeOnly: true
+          writeOnly: true
+          description: List of category IDs
+        authors_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorNested'
+          readOnly: true
+        categories_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNested'
+          readOnly: true
+        average_rating:
+          type: number
+          format: double
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        isbn:
+          type: string
+          maxLength: 20
+        publication_date:
+          type: string
+          format: date
+          nullable: true
+        total_copies:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        available_copies:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        library:
+          type: integer
+    PatchedBookAuthor:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        author_id:
+          type: integer
+          readOnly: true
+    PatchedBookCategory:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          readOnly: true
+        category_id:
+          type: integer
+          readOnly: true
+    PatchedBorrowing:
+      type: object
+      properties:
+        borrowing_id:
+          type: integer
+          readOnly: true
+        borrow_date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        return_date:
+          type: string
+          format: date
+          nullable: true
+        late_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        member:
+          type: integer
+        book:
+          type: integer
+    PatchedCategory:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          readOnly: true
+        category:
+          type: string
+          maxLength: 50
+        descriptions:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedLibrary:
+      type: object
+      properties:
+        library_id:
+          type: integer
+          readOnly: true
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email of the library
+        phone_number:
+          type: string
+          description: Library phone number with country code
+        library_name:
+          type: string
+          maxLength: 50
+        campus_location:
+          type: string
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedMember:
+      type: object
+      properties:
+        member_id:
+          type: integer
+          readOnly: true
+        has_overdue:
+          type: boolean
+          readOnly: true
+        contact_email:
+          type: string
+          format: email
+          description: Member's contact email
+        phone_number:
+          type: string
+          description: Member's phone number with country code
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        member_type:
+          $ref: '#/components/schemas/MemberTypeEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedReview:
+      type: object
+      properties:
+        review_id:
+          type: integer
+          readOnly: true
+        rating:
+          type: integer
+          maximum: 5
+          minimum: 1
+        comment:
+          type: string
+        review_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        member:
+          type: integer
+        book:
+          type: integer
+    Review:
+      type: object
+      properties:
+        review_id:
+          type: integer
+          readOnly: true
+        rating:
+          type: integer
+          maximum: 5
+          minimum: 1
+        comment:
+          type: string
+        review_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        member:
+          type: integer
+        book:
+          type: integer
+      required:
+      - book
+      - comment
+      - created_at
+      - member
+      - rating
+      - review_date
+      - review_id
+      - updated_at
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+servers:
+- url: http://127.0.0.1:8000
+  description: Local development server
