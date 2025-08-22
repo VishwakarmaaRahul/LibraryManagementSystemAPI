@@ -19,12 +19,10 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install dependencies
+      - name: Install dependencies with uv
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install uv
+          uv sync --all-extras --dev
 
       - name: Run tests with coverage
         run: |
